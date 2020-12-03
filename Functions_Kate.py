@@ -34,13 +34,38 @@ def appendtolist():
     PreferenceList = []                                                                                 # create empty list to store preferences
     PreferenceList.extend(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation)   # use the extend function to appending individual elements
 
+# I think this function below needs to be simplified to remove the repetitiveness 
 
 def EastGate(): 
-    CampgroundEast = []
+    CampgroundEast = []  # do I need this?
+    # likely need to refer to dictionary of each campground's values first to have something to compare to
     # need to fill this list with the preferences from user input?
-    for i in range len(PreferenceList):
+    for i in range len(PreferenceList):                   # is this necessary if I'm using collections.counter?
         # comparison between PreferenceList and index list of campground in dictionary
         # if integer in this index is the same as the integer in this index 
+        # use collection.counter() method
+        # will need to import collections at the top of the code 
+        if collections.Counter(PreferenceList) == collections.Counter(RockLake):
+            # the lists are the same and this is a matching campground
+        elif collections.Counter(PreferenceList) == collections.Counter(CoonLake):
+            # the lists are the same 
+        elif collections.Counter(PreferenceList) == collections.Counter(TeaLake):
+            # the lists are the same
+        elif collections.Counter(PreferenceList) == collections.Counter(CanisbayLake):
+            # the lists are the same
+        elif collections.Counter(PreferenceList) == collections.Counter(KearneyLake):
+            # the lists are the same
+        elif collections.Counter(PreferenceList) == collections.Counter(PogLake):
+            # the lists are the same
+        elif collections.Counter(PreferenceList) == collections.Counter(TwoRivers):
+            # the lists are the smae
+        elif collections.Counter(PreferenceList) == collections.Counter(MewLake):
+            # the lists are the same
+        else:
+            # the lists are not the same
+
+
+
 
 def WestGate(): 
     CampgroundWest = []
