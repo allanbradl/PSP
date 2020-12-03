@@ -23,7 +23,7 @@
 
 import csv
 
-# Top 3 campgrounds selected based on user input and matches
+# Top 3 campgrounds selected based on user input and matches stored in a dictionary
 campgroundSelection = {"Rock Lake": ["Yes", "Yes", "Yes", "Yes", "Booth's Rock Trail", "Difficult", "23.2 km", "49.2 km", "0 km", "11.5 km",
 "https://reservations.ontarioparks.com/create-booking/results?resourceLocationId=-2147483555&mapId=-2147483264&searchTabGroupId=0&bookingCategoryId=0&startDate=2020-11-13T00:00:00.000Z&endDate=2020-11-14T00:00:00.000Z&nights=1&isReserving=true&equipmentId="], 
 "Coon Lake": ["No", "No", "Yes", "No", "Centenial Ridges Trail", "Difficult", "20.9 km", "46.9 km", "1.5 km", "9.2 km",
@@ -43,6 +43,8 @@ trailerStationDistance = []
 visitorCentreDistance = []
 reservationLink = []
 
+# Append individual dictionary items to empty list
+# Every item appended is associated with the same key (campground name)
 for akey in campgroundSelection:
     campgroundName.append(akey)
     electricalCampsites.append(campgroundSelection[akey][0])
@@ -57,6 +59,8 @@ for akey in campgroundSelection:
     visitorCentreDistance.append(campgroundSelection[akey][9])
     reservationLink.append(campgroundSelection[akey][10])
 
+# Write output to a new text file
+# Each row is one campground
 with open("CampgroundSelection.csv", "w", newline="") as campground_final:
     campgroundWriter = csv.writer(campground_final)
     campgroundWriter.writerow(["Name of Campground", "Electrical Campsites", "Boat Ramp", "Dog Friendly", "Wheelchair Accessible", "Nearest Trail", "Trail Difficulty", 
