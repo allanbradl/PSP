@@ -20,3 +20,44 @@
 # References: Ontario Geohub (URL), Ontario Parks (URL)
 
 # Contribution of team members to implementation: 
+
+
+
+
+# functions for use in program - Kate 
+
+# main function for the entire program?
+def main():
+
+# function to append input values to campground preference list 
+def appendtolist():
+    PreferenceList = []                                                                                 # create empty list to store preferences
+    PreferenceList.extend(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation)   # use the extend function to appending individual elements
+
+
+def EastGate(): 
+    CampgroundEast = []
+    # need to fill this list with the preferences from user input?
+    for i in range len(PreferenceList):
+        # comparison between PreferenceList and index list of campground in dictionary
+        # if integer in this index is the same as the integer in this index 
+
+def WestGate(): 
+    CampgroundWest = []
+    for i in range len(PreferenceList):
+        # comparison between PreferenceList and index list of campground in dictionary
+
+
+# these are just notes I've made about input to get thinking organized
+startgate = input("Which Gate are you going to enter at (W or E)? ")
+
+if startgate = 'E':
+    EastGate()
+else: 
+    WestGate()
+# end of notes
+
+
+
+
+    
