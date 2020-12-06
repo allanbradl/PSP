@@ -13,15 +13,67 @@
 # It also assumes that the user does not want group camping. We are assuming accuracy of data from Ontario Geohub and the Algonquin
 # Park main website. 
 
-# Planned for limitations: 
+# Planned for limitations: this program does not work for backcountry campsite selection, only considers campgrounds along the highway
+# 60 corridor
 
 # Special cases and known problems: 
 
-# Inputs and outputs: Input data will be _____, the campsites that fit the suitability criteria will be written to a csv file 
+# Inputs and outputs: Input data will be user input appended to a list
+# the campsites that fit the suitability criteria will be written to a csv file 
 
 # References: Ontario Geohub (URL), Ontario Parks (URL)
 
 # Contribution of team members to implementation: 
+# functions for use in program - Kate 
+
+
+# function to append input values to campground preference list 
+def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
+    PreferenceList = []                                                                                 # create empty list to store preferences
+    PreferenceList.extend(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation)   # use the extend function to appending individual elements
+
+# I think this function below needs to be simplified to remove the repetitiveness 
+
+def EastGate(): 
+    CampgroundEast = []  # do I need this?
+    # likely need to refer to dictionary of each campground's values first to have something to compare to
+    # need to fill this list with the preferences from user input?
+    for i in range(len(PreferenceList)):                   # is this necessary if I'm using collections.counter?
+        # comparison between PreferenceList and index list of campground in dictionary
+        # if integer in this index is the same as the integer in this index 
+        # use collection.counter() method
+        # will need to import collections at the top of the code 
+        if collections.Counter(PreferenceList) == collections.Counter(RockLake):
+            # the lists are the same and this is a matching campground
+        elif collections.Counter(PreferenceList) == collections.Counter(CoonLake):
+            # the lists are the same 
+        elif collections.Counter(PreferenceList) == collections.Counter(TeaLake):
+            # the lists are the same
+        elif collections.Counter(PreferenceList) == collections.Counter(CanisbayLake):
+            # the lists are the same
+        elif collections.Counter(PreferenceList) == collections.Counter(KearneyLake):
+            # the lists are the same
+        elif collections.Counter(PreferenceList) == collections.Counter(PogLake):
+            # the lists are the same
+        elif collections.Counter(PreferenceList) == collections.Counter(TwoRivers):
+            # the lists are the smae
+        elif collections.Counter(PreferenceList) == collections.Counter(MewLake):
+            # the lists are the same
+        else:
+            # the lists are not the same
+
+
+
+
+def WestGate(): 
+    CampgroundWest = []
+    for i in range len(PreferenceList):
+        # comparison between PreferenceList and index list of campground in dictionary
+
+
+# main function for the entire program?
+def main():
+
 
 #User-defined functions:
 def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
@@ -89,7 +141,7 @@ try:
     print()
     while True:
             # Users' preferences on boat ramp
-            inboatramp = str(input("Would you like the lakes at your campground to allow motor boat? Yes: enter 1, No: enter 0:__ "))
+            inboatramp = str(input("Would you like your campground to have a boat ramp? Yes: enter 1, No: enter 0:__ "))
             if inboatramp not in ["1","0"]:    
                 print("Invalid entry. Please enter 1 (Yes) or 0 (No).") 
             else:
@@ -139,7 +191,11 @@ try:
 except ValueError:
     print("Enter correct value as requested please")
 
-# Main Program: 
+if startingpoint = 'E':
+    EastGate()
+else: 
+    WestGate()
+ 
 
 
 # Output Section: 
