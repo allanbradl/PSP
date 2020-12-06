@@ -1,7 +1,8 @@
+import operator
 import arcpy
 from arcpy import env
 
-arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb"
+arcpy.env.workspace = r"C:\PSP\GroupProject\Algonquin\Algonquin\PSPgrp\CampgroundsData.gdb"
 
 def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
     PreferenceList = []
@@ -11,23 +12,41 @@ def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, tra
 def EastGate(preflist):
     print("East Gate Function")
     # set variable for feature class definition
-    sitematch = []
+    sitematch = {}
     featureClasses = arcpy.ListFeatureClasses()
     campgrounds = featureClasses[0]
     fieldName = [f.name for f in arcpy.ListFields("Campgrounds")] 
+    
     # sitesdict = {}
+    
     with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
         for row in cursor:
             sitefields = [row[19], row[21], row[22], row[17], row[12], row[20]]
             sitesdict = {row[6]: sitefields}
             print(sitesdict)
+            ranker = 0
             # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
             # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
             # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
             # siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
             if sitefields == preflist:
-                sitematch.append(row[6])
-    return sitematch
+                rank = 3
+                sitematch.update({row[6]: rank})
+            else:
+                
+                for i in range(len(sitefields)):
+                    if sitefields[i] == preflist[i]:
+                        ranker += 1
+                        rank = ranker-3
+                        print(rank)
+                        print(row[6])
+                        sitematch.update({row[6]: rank})
+                                
+
+    sorted_sitematch = dict(sorted(sitematch.items(), key=operator.itemgetter(1),reverse=True))
+    sort_match = sorted_sitematch.items()
+    top_match = list(sort_match)[:3]
+    return top_match
 
 
 def WestGate(preflist):
