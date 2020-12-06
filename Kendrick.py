@@ -10,7 +10,7 @@ while True:
                            E = East Gate and W West Gate"))
     except:
         continue
-    if startingpoint not in ["E","e","W","w"]:Ellipsis
+    if startingpoint not in ["E","e","W","w"]:
         startingpoint = str(input("Where would you like your starting point be? \
                            E = East Gate and W West Gate"))
     else:
