@@ -10,6 +10,19 @@ try:
 
 while True:
         # Users' preference on their starting point
+<<<<<<< HEAD
+        startingpoint = str(input("Where would you like your starting point be? \
+                           E = East Gate and W West Gate"))
+    except:
+        continue
+    if startingpoint not in ["E","e","W","w"]:
+        startingpoint = str(input("Where would you like your starting point be? \
+                           E = East Gate and W West Gate"))
+    else:
+        break
+
+
+=======
         startingpoint = str(input("Where would you like your starting point be? E = East Gate and W = West Gate:__  "))
         startingpoint = startingpoint.upper
         if startingpoint not in ["E","W"]:
@@ -20,6 +33,7 @@ print()
 print("***************************************************************")
 print("Question 2)")
 print()
+>>>>>>> 8c8857a82a0c4b1afc1a681fc0e7dd393a85f76e
 while True:
         # Users' preferences on their distance from the starting point
         indistgate = int(input("How far would you want to travel to your campground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3:__ "))
