@@ -28,54 +28,79 @@
 
 # Contribution of team members to implementation:  
 
-def EastGate(): 
-    CampgroundEast = []  # do I need this?
-    # likely need to refer to dictionary of each campground's values first to have something to compare to
-    # need to fill this list with the preferences from user input?
-    for i in range(len(PreferenceList)):                   # is this necessary if I'm using collections.counter?
-        # comparison between PreferenceList and index list of campground in dictionary
-        # if integer in this index is the same as the integer in this index 
-        # use collection.counter() method
-        # will need to import collections at the top of the code 
-        if collections.Counter(PreferenceList) == collections.Counter(RockLake):
-            # the lists are the same and this is a matching campground
-        elif collections.Counter(PreferenceList) == collections.Counter(CoonLake):
-            # the lists are the same 
-        elif collections.Counter(PreferenceList) == collections.Counter(TeaLake):
-            # the lists are the same
-        elif collections.Counter(PreferenceList) == collections.Counter(CanisbayLake):
-            # the lists are the same
-        elif collections.Counter(PreferenceList) == collections.Counter(KearneyLake):
-            # the lists are the same
-        elif collections.Counter(PreferenceList) == collections.Counter(PogLake):
-            # the lists are the same
-        elif collections.Counter(PreferenceList) == collections.Counter(TwoRivers):
-            # the lists are the smae
-        elif collections.Counter(PreferenceList) == collections.Counter(MewLake):
-            # the lists are the same
-        else:
-            # the lists are not the same
+import arcpy
+from arcpy import env
 
+arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb"
 
-
-
-def WestGate(): 
-    CampgroundWest = []
-    for i in range len(PreferenceList):
-        # comparison between PreferenceList and index list of campground in dictionary
-
-
-# main function for the entire program?
-def main():
-
-
-#User-defined functions:
 def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
     PreferenceList = []
-    PreferenceList.extend([distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation])
+    PreferenceList.extend([int(distgate), int(electricCampsite), int(boatramp), int(proxvisit), int(trailpref), int(trailerstation)])
     return PreferenceList
 
-# Opening statements about program: 
+def EastGate(preflist):
+    print("East Gate Function")
+    # set variable for feature class definition
+    sitematch = []
+    featureClasses = arcpy.ListFeatureClasses()
+    campgrounds = featureClasses[0]
+    fieldName = [f.name for f in arcpy.ListFields("Campgrounds")] 
+    # sitesdict = {}
+    with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+        for row in cursor:
+            sitefields = [row[19], row[21], row[22], row[17], row[12], row[20]]
+            sitesdict = {row[6]: sitefields}
+            print(sitesdict)
+            # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+            # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+            # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+            # siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+            if sitefields == preflist:
+                sitematch.append(row[6])
+    return sitematch
+
+
+def WestGate(preflist):
+    print("West Gate")
+    sitematch = []
+    featureClasses = arcpy.ListFeatureClasses()
+    campgrounds = featureClasses[0]
+    fieldName = [f.name for f in arcpy.ListFields("Campgrounds")] 
+    with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+        for row in cursor:
+            sitefields = [row[18], row[21], row[22], row[17], row[12], row[20]]
+            sitesdict = {row[6]: sitefields}
+            print(sitesdict)
+            # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+            # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+            # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+            # siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+            if sitefields == preflist:
+                sitematch.append(row[6])
+    return sitematch
+          
+
+
+    # sets field names to scan through later 
+
+# # printing info to help view and construction ------ remove when ready!---------------
+# print(campgrounds)
+# print(" fields: " + str(fieldName))
+# print()
+# # ----------------------------------------this can be removed for final, but leaving in in case we want to view it later----------
+
+# # loop through the feature class attribute table and assign evaluation criteria field values to each campsite (key)
+# with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+#     for row in cursor:
+#         # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+#         # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+#         # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+#         siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+#         sitefields = [row[18], row[19], row[21], row[22], row[17], row[12], row[20]]
+#         sitesdict = {row[6]: sitefields}
+#         print(sitesdict)     
+
+# Opening statements about program:
 print("Welcome to the Algonquin Provincial Park Campground Selector.") 
 print()
 print("Algonquin offers a two different types of camping experiences: backcountry, and drive-in camping in developed campgrounds.")
@@ -186,14 +211,61 @@ try:
     userPreference = appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
     print(userPreference)
 
+
+
+    if startingpoint=="E":
+        EastGateResult = EastGate(userPreference)
+        print(EastGateResult)
+    else:
+        WestGateResult = WestGate(userPreference)
+        print(WestGateResult)
+
+    # # Top 3 campgrounds selected based on user input and matches stored in a dictionary
+    # campgroundSelection = {"Rock Lake": ["Yes", "Yes", "Yes", "Yes", "Booth's Rock Trail", "Difficult", "23.2 km", "49.2 km", "0 km", "11.5 km",
+    # "https://reservations.ontarioparks.com/create-booking/results?resourceLocationId=-2147483555&mapId=-2147483264&searchTabGroupId=0&bookingCategoryId=0&startDate=2020-11-13T00:00:00.000Z&endDate=2020-11-14T00:00:00.000Z&nights=1&isReserving=true&equipmentId="], 
+    # "Coon Lake": ["No", "No", "Yes", "No", "Centenial Ridges Trail", "Difficult", "20.9 km", "46.9 km", "1.5 km", "9.2 km",
+    # "https://reservations.ontarioparks.com/create-booking/results?resourceLocationId=-2147483555&mapId=-2147483264&searchTabGroupId=0&bookingCategoryId=0&startDate=2020-11-13T00:00:00.000Z&endDate=2020-11-14T00:00:00.000Z&nights=1&isReserving=true&equipmentId="]}
+
+    # # Create empty lists to hold individual dictionary items
+    # campgroundName = []
+    # electricalCampsites = []
+    # boatRamp = []
+    # dogFriendly = []
+    # wheelchairAccessible = []
+    # trailName = []
+    # trailDifficulty = []
+    # eastGateDistance = []
+    # westGateDistance = []
+    # trailerStationDistance = []
+    # visitorCentreDistance = []
+    # reservationLink = []
+
+    # # Append individual dictionary items to empty list
+    # # Every item appended is associated with the same key (campground name)
+    # for akey in campgroundSelection:
+    #     campgroundName.append(akey)
+    #     electricalCampsites.append(campgroundSelection[akey][0])
+    #     boatRamp.append(campgroundSelection[akey][1])
+    #     dogFriendly.append(campgroundSelection[akey][2])
+    #     wheelchairAccessible.append(campgroundSelection[akey][3])
+    #     trailName.append(campgroundSelection[akey][4])
+    #     trailDifficulty.append(campgroundSelection[akey][5])
+    #     eastGateDistance.append(campgroundSelection[akey][6])
+    #     westGateDistance.append(campgroundSelection[akey][7])
+    #     trailerStationDistance.append(campgroundSelection[akey][8])
+    #     visitorCentreDistance.append(campgroundSelection[akey][9])
+    #     reservationLink.append(campgroundSelection[akey][10])
+
+    # # Write output to a new text file
+    # # Each row is one campground
+    # with open("CampgroundSelection.csv", "w", newline="") as campground_final:
+    #     campgroundWriter = csv.writer(campground_final)
+    #     campgroundWriter.writerow(["Name of Campground", "Electrical Campsites", "Boat Ramp", "Dog Friendly", "Wheelchair Accessible", "Nearest Trail", "Trail Difficulty", 
+    #     "Distance to East Gate", "Distance to West Gate", "Distance to Trailer Sanitation Station", "Distance to Visitor Centre", "Reservation Link"])
+    #     for index in range(len(campgroundName)):
+    #         row = [campgroundName[index]] + [electricalCampsites[index]] + [boatRamp[index]] + [dogFriendly[index]] + [wheelchairAccessible[index]] + \
+    #             [trailName[index]] + [trailDifficulty[index]] + [eastGateDistance[index]] + [westGateDistance[index]]  + [trailerStationDistance[index]] + \
+    #                 [visitorCentreDistance[index]] + [reservationLink[index]]
+    #         campgroundWriter.writerow(row)
 except ValueError:
     print("Enter correct value as requested please")
-
-if startingpoint = 'E':
-    EastGate()
-else: 
-    WestGate()
- 
-
-
-# Output Section: 
