@@ -2,10 +2,15 @@ input_PreferenceList = [] # Create empty user preference list
 
 # Users input their preferences in the PreferenceList
 
+print()
+print("***************************************************************")
+print("Question 1)")
+print()
+try:
 
 while True:
-    try:
         # Users' preference on their starting point
+<<<<<<< HEAD
         startingpoint = str(input("Where would you like your starting point be? \
                            E = East Gate and W West Gate"))
     except:
@@ -17,95 +22,88 @@ while True:
         break
 
 
+=======
+        startingpoint = str(input("Where would you like your starting point be? E = East Gate and W = West Gate:__  "))
+        startingpoint = startingpoint.upper
+        if startingpoint not in ["E","W"]:
+            print("Invalid entry. Please enter E or W.")
+        else:
+            break
+print()
+print("***************************************************************")
+print("Question 2)")
+print()
+>>>>>>> 8c8857a82a0c4b1afc1a681fc0e7dd393a85f76e
 while True:
-    try:
         # Users' preferences on their distance from the starting point
-        distgate = int(input("How far would you want to travel to your camp ground? Under 20km: enter 1, \
-                              Between 21 - 40km: enter 2, Over 40km: enter 3 "))
-    except ValueError:
-        print("Please enter your preference: 1, 2 or 3.")
-        continue
-    if distgate not in [1,2,3]:
-        distgate = int(input("How far would you want to travel to your camp ground? Under 20km: enter 1, \
-                              Between 21 - 40km: enter 2, Over 40km: enter 3 "))
-    else:
-        break 
-
-
+        indistgate = int(input("How far would you want to travel to your campground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3:__ "))
+        if indistgate not in [1,2,3]:
+            print("Invalid entry. Please enter 1, 2 or 3.")
+        else:
+            break 
+print()
+print("***************************************************************")
+print("Question 3)")
+print()
 while True:
-    try:
         # Users' preferences on electric campsites
-        electricCampsite = int(input("Would you want your camp ground that has electric camp sites? \
-                                      Yes: enter 1, No: enter 0 "))
-    except ValueError:
-        print("Please enter your preference: 1 or 0.")
-        continue
-    if electricCampsite not in [1,0]:
-        electricCampsite = int(input("Would you want your camp ground that has electric camp sites? \
-                                      Yes: enter 1, No: enter 0 "))
+        inelectricCampsite = int(input("Would you like your campground to have electrical hook-up? Yes: enter 1, No: enter 0:__ "))
+    if inelectricCampsite not in [1,0]:
+        print("Invalid entry. Please enter 1 (Yes) or 0 (No).")
     else:
         break
 
-
+print()
+print("***************************************************************")
+print("Question 4)")
+print()
 while True:
-    try:
         # Users' preferences on boat ramp
-        boatramp = int(input("Would you want the lakes in your camp ground that allows motor boat? \
-                              Yes: enter 1, No: enter 0 "))
-    except ValueError:
-        print("Please enter your preference: 1 or 0.")
-        continue   
-    if boatramp not in [1,0]:
-        boatramp = int(input("Would you want the lakes in your camp ground that allows motor boat? \
-                              Yes: enter 1, No: enter 0 "))
-    else:
-        break
-
-
-while True:
-    try:    
+        inboatramp = int(input("Would you like the lakes at your campground to allow motor boat? Yes: enter 1, No: enter 0:__ "))
+        if inboatramp not in [1,0]:    
+            print("Invalid entry. Please enter 1 (Yes) or 0 (No).") 
+        else:
+            break
+print()
+print("***************************************************************")
+print("Question 5)")
+print()
+while True:  
         # Users' preference on the distance to visitor centre
-        proxvisit = int(input("How far would you like to have the Visitor Centre nearby? \
-                               Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3 "))
-    except ValueError:
-        print("Please enter your preference: 1, 2 or 3.")
-        continue                      
-    if proxvisit not in [1,2,3]:
-        proxvisit = int(input("How far would you like to have the Visitor Centre nearby? \
-                               Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3 "))
-    else:
-        break
-
-
+        inproxvisit = int(input("What is your preferred distance to the Visitor Centre? Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3:__ "))
+        if inproxvisit not in [1,2,3]:
+            print("Invalid entry. Please enter 1 (Yes) or 0 (No).")
+        else:
+            break
+print()
+print("***************************************************************")
+print("Question 6)")
+print()
 while True:
-    try:
         # Users' preference on the trails' difficulty
-        trailpref = int(input("What trail difficulty would you like to have in your camp ground? \
-                               Easy: enter 1, Moderate: enter 2, Hard: enter 3 "))
-    except ValueError:
-        print("Please enter your preference: 1, 2 or 3.")
-        continue
-    if trailpref not in [1,2,3]:
-        trailpref = int(input("What trail difficulty would you like to have in your camp ground? \
-                               Easy: enter 1, Moderate: enter 2, Hard: enter 3 "))
-    else:
-        break
-
+        intrailpref = int(input("What level of trail difficulty would you like to have in proximity to your campground? Easy: enter 1, Moderate: enter 2, Hard: enter 3:__ "))
+        if trailpref not in [1,2,3]:
+            print("Invalid entry. Please enter 1 (Easy), 2 (Moderate) or 3 (Hard).")
+        else:
+            break
+print()
+print("***************************************************************")
+print("Question 7)")
+print()
 while True:
-    try:
         # Users' preference on the distance to trailer station
-        trailerstation = int(input("how far would you want a trailer station near your camp ground? \
-                                    Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3"))
-    except ValueError:
-        print("Please enter your preference: 1, 2 or 3.")
-        continue
-    if trailerstation not in [1,2,3]:
-        trailerstation = int(input("how far would you want a trailer station near your camp ground? \
-                                    Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3"))
-    else:
-        break
-
+        intrailerstation = int(input("What is your preferred distance to a trailer sanitation station?  Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3:__ "))
+        if trailerstation not in [1,2,3]:
+            print("Invalid entry. Please enter 1, 2 or 3.")
+        else:
+            break
+print()
+print("***************************************************************")
+print()
 # just to test if the above line runs properly
 print("done")
+print(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
+#rrappendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
+
 
 
