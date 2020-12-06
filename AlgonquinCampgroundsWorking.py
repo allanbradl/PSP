@@ -15,6 +15,8 @@
 
 # Planned for limitations: 
 
+# Special cases and known problems: 
+
 # Inputs and outputs: Input data will be _____, the campsites that fit the suitability criteria will be written to a csv file 
 
 # References: Ontario Geohub (URL), Ontario Parks (URL)
@@ -36,10 +38,10 @@ print()
 print("This program assumes the user is only looking for individual camping, therefore the group campground will not be considered.")
 
 
-# Inputs: 
+# Input Section: 
 
 
 # Main Program: 
 
 
-# Output: 
+# Output Section: 
