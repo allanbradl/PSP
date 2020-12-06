@@ -1,77 +1,61 @@
-# GEOM 67 Group Project 
-# Name of Program: Alongquin Park Campground Selector
-# Authors: Kristine Luangkhot, James Serendip, Kathryn Little, Kendrick Lok 
-# Date last modified: December 6, 2020
-# Program Purpose: to conduct a site suitability analysis for a campground in Algonquin Provincial Park along the highway 60 corridor
+import arcpy
+from arcpy import env
 
-# Program Use: This program will be used by people looking to select a campground in Algonquin Park based on specific ranked criteria
+arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb"
 
-# Program Structure: 
-
-# Assumptions made: This program assumes that the user is only looking to book a campground along the Highway 60 corridor of Algonquin
-# Provincial Park in Ontario. It also assumes that elevation and ground level are not a factor, given these are established campgrounds
-# It also assumes that the user does not want group camping. We are assuming accuracy of data from Ontario Geohub and the Algonquin
-# Park main website. 
-
-# Planned for limitations: this program does not work for backcountry campsite selection, only considers campgrounds along the highway
-# 60 corridor
-
-# Special cases and known problems: 
-
-# Inputs and outputs: Input data will be user input appended to a list
-# the campsites that fit the suitability criteria will be written to a csv file 
-
-# References: Ontario Geohub (URL), Ontario Parks (URL)
-
-# Contribution of team members to implementation: 
-# functions for use in program - Kate 
-
-def EastGate(): 
-    CampgroundEast = []  # do I need this?
-    # likely need to refer to dictionary of each campground's values first to have something to compare to
-    # need to fill this list with the preferences from user input?
-    for i in range(len(PreferenceList)):                   # is this necessary if I'm using collections.counter?
-        # comparison between PreferenceList and index list of campground in dictionary
-        # if integer in this index is the same as the integer in this index 
-        # use collection.counter() method
-        # will need to import collections at the top of the code 
-        if collections.Counter(PreferenceList) == collections.Counter(RockLake):
-            # the lists are the same and this is a matching campground
-        elif collections.Counter(PreferenceList) == collections.Counter(CoonLake):
-            # the lists are the same 
-        elif collections.Counter(PreferenceList) == collections.Counter(TeaLake):
-            # the lists are the same
-        elif collections.Counter(PreferenceList) == collections.Counter(CanisbayLake):
-            # the lists are the same
-        elif collections.Counter(PreferenceList) == collections.Counter(KearneyLake):
-            # the lists are the same
-        elif collections.Counter(PreferenceList) == collections.Counter(PogLake):
-            # the lists are the same
-        elif collections.Counter(PreferenceList) == collections.Counter(TwoRivers):
-            # the lists are the smae
-        elif collections.Counter(PreferenceList) == collections.Counter(MewLake):
-            # the lists are the same
-        else:
-            # the lists are not the same
-
-
-
-
-def WestGate(): 
-    CampgroundWest = []
-    for i in range len(PreferenceList):
-        # comparison between PreferenceList and index list of campground in dictionary
-
-
-# main function for the entire program?
-def main():
-
-
-#User-defined functions:
 def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
     PreferenceList = []
     PreferenceList.extend([distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation])
     return PreferenceList
+
+def EastGate():
+    print("East Gate Function")
+    with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+    for row in cursor:
+        # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+        # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+        # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+        siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+        sitefields = [row[19], row[21], row[22], row[17], row[12], row[20]]
+        sitesdict = {row[6]: sitefields}
+        print(sitesdict)  
+
+def WestGate():
+    print("West Gate")
+    with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+    for row in cursor:
+        # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+        # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+        # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+        siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+        sitefields = [row[18], row[21], row[22], row[17], row[12], row[20]]
+        sitesdict = {row[6]: sitefields}
+        print(sitesdict)  
+
+# set variable for feature class definition
+featureClasses = arcpy.ListFeatureClasses()
+campgrounds = featureClasses[0]
+fieldName = [f.name for f in arcpy.ListFields("Campgrounds")]  # sets field names to scan through later 
+
+# printing info to help view and construction ------ remove when ready!---------------
+print(campgrounds)
+print(" fields: " + str(fieldName))
+print()
+# ----------------------------------------this can be removed for final, but leaving in in case we want to view it later----------
+
+# create empty dictionary for campsite info and empty string to hold values of fields for each site
+sitesdict = {}
+
+# loop through the feature class attribute table and assign evaluation criteria field values to each campsite (key)
+with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+    for row in cursor:
+        # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+        # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+        # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+        siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+        sitefields = [row[18], row[19], row[21], row[22], row[17], row[12], row[20]]
+        sitesdict = {row[6]: sitefields}
+        print(sitesdict)     
 
 # Opening statements about program: 
 print("Welcome to the Algonquin Provincial Park Campground Selector.") 
@@ -180,14 +164,10 @@ try:
     userPreference = appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
     print(userPreference)
 
+    if startingpoint=="E":
+        EastGate()
+    else:
+        WestGate()
+
 except ValueError:
     print("Enter correct value as requested please")
-
-if startingpoint = 'E':
-    EastGate()
-else: 
-    WestGate()
- 
-
-
-# Output Section: 
