@@ -5,57 +5,62 @@ arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb
 
 def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
     PreferenceList = []
-    PreferenceList.extend([distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation])
+    PreferenceList.extend([int(distgate), int(electricCampsite), int(boatramp), int(proxvisit), int(trailpref), int(trailerstation)])
     return PreferenceList
 
-def EastGate():
+def EastGate(preflist):
     print("East Gate Function")
+    # set variable for feature class definition
+    sitematch = []
+    featureClasses = arcpy.ListFeatureClasses()
+    campgrounds = featureClasses[0]
+    fieldName = [f.name for f in arcpy.ListFields("Campgrounds")] 
+    # sitesdict = {}
     with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
-    for row in cursor:
-        # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
-        # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
-        # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
-        siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
-        sitefields = [row[19], row[21], row[22], row[17], row[12], row[20]]
-        sitesdict = {row[6]: sitefields}
-        print(sitesdict)  
+        for row in cursor:
+            sitefields = [row[19], row[21], row[22], row[17], row[12], row[20]]
+            sitesdict = {row[6]: sitefields}
+            print(sitesdict)
+            # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+            # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+            # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+            # siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+            if sitefields == preflist:
+                sitematch.append(row[6])
+    return sitematch
 
-def WestGate():
-    print("West Gate")
-    with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
-    for row in cursor:
-        # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
-        # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
-        # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
-        siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
-        sitefields = [row[18], row[21], row[22], row[17], row[12], row[20]]
-        sitesdict = {row[6]: sitefields}
-        print(sitesdict)  
 
-# set variable for feature class definition
-featureClasses = arcpy.ListFeatureClasses()
-campgrounds = featureClasses[0]
-fieldName = [f.name for f in arcpy.ListFields("Campgrounds")]  # sets field names to scan through later 
+# def WestGate():
+    # print("West Gate")
+    # with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+    # for row in cursor:
+    #     # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+    #     # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+    #     # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+    #     siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+    #     sitefields = [row[18], row[21], row[22], row[17], row[12], row[20]]
+    #     sitesdict = {row[6]: sitefields}
+    #     print(sitesdict)  
 
-# printing info to help view and construction ------ remove when ready!---------------
-print(campgrounds)
-print(" fields: " + str(fieldName))
-print()
-# ----------------------------------------this can be removed for final, but leaving in in case we want to view it later----------
 
-# create empty dictionary for campsite info and empty string to hold values of fields for each site
-sitesdict = {}
+    # sets field names to scan through later 
 
-# loop through the feature class attribute table and assign evaluation criteria field values to each campsite (key)
-with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
-    for row in cursor:
-        # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
-        # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
-        # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
-        siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
-        sitefields = [row[18], row[19], row[21], row[22], row[17], row[12], row[20]]
-        sitesdict = {row[6]: sitefields}
-        print(sitesdict)     
+# # printing info to help view and construction ------ remove when ready!---------------
+# print(campgrounds)
+# print(" fields: " + str(fieldName))
+# print()
+# # ----------------------------------------this can be removed for final, but leaving in in case we want to view it later----------
+
+# # loop through the feature class attribute table and assign evaluation criteria field values to each campsite (key)
+# with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+#     for row in cursor:
+#         # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+#         # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+#         # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+#         siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+#         sitefields = [row[18], row[19], row[21], row[22], row[17], row[12], row[20]]
+#         sitesdict = {row[6]: sitefields}
+#         print(sitesdict)     
 
 # Opening statements about program: 
 print("Welcome to the Algonquin Provincial Park Campground Selector.") 
@@ -164,10 +169,13 @@ try:
     userPreference = appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
     print(userPreference)
 
+
+
     if startingpoint=="E":
-        EastGate()
-    else:
-        WestGate()
+        EastGateResult = EastGate(userPreference)
+        print(EastGateResult)
+    # else:
+    #     WestGate()
 
 except ValueError:
     print("Enter correct value as requested please")
