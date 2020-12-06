@@ -129,7 +129,7 @@ print("***************************************************************")
 print("Question 1)")
 print()
 try:
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
             # Users' preference on their starting point (East Gate or West Gate)
             startingpoint = str(input("Where would you like your starting point be? E = East Gate and W = West Gate:__  "))
             startingpoint = startingpoint.upper()                   # convert the input to uppercase 
@@ -141,7 +141,7 @@ try:
     print("***************************************************************")
     print("Question 2)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preferences on their distance from the starting point
         indistgate = str(input("How far would you want to travel to your campground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3:__ "))
         if indistgate not in ["1","2","3"]:                         # checks whether the user input exists in the list of valid inputs
@@ -152,7 +152,7 @@ try:
     print("***************************************************************")
     print("Question 3)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preferences on electric campsites
         inelectricCampsite = str(input("Would you like your campground to have electrical hook-up? Yes: enter 1, No: enter 0:__ "))
         if inelectricCampsite not in ["1","0"]:                     # checks whether the user input exists in the list of valid inputs
@@ -164,7 +164,7 @@ try:
     print("***************************************************************")
     print("Question 4)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preferences on boat ramp
         inboatramp = str(input("Would you like your campground to have a boat ramp? Yes: enter 1, No: enter 0:__ "))
         if inboatramp not in ["1","0"]:                             # checks whether the user input exists in the list of valid inputs
@@ -175,7 +175,7 @@ try:
     print("***************************************************************")
     print("Question 5)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preference on the distance to Visitor Centre
         inproxvisit = str(input("What is your preferred distance to the Visitor Centre? Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3:__ "))
         if inproxvisit not in ["1","2","3"]:                        # checks whether the user input exists in the list of valid inputs
@@ -186,7 +186,7 @@ try:
     print("***************************************************************")
     print("Question 6)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preference on the trails' difficulty
         intrailpref = str(input("What level of trail difficulty would you like to have in proximity to your campground? Easy: enter 1, Moderate: enter 2, Hard: enter 3:__ "))
         if intrailpref not in ["1","2","3"]:                        # checks whether the user input exists in the list of valid inputs
@@ -197,7 +197,7 @@ try:
     print("***************************************************************")
     print("Question 7)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preference on the distance to trailer station
         intrailerstation = str(input("What is your preferred distance to a trailer sanitation station?  Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3:__ "))
         if intrailerstation not in ["1","2","3"]:                   # checks whether the user input exists in the list of valid inputs
@@ -211,12 +211,10 @@ try:
     userPreference = appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
     print(userPreference)
 
-
-
-    if startingpoint=="E":
+    if startingpoint=="E":                                          # If the user starting input is E use the EastGate function
         EastGateResult = EastGate(userPreference)
         print(EastGateResult)
-    else:
+    else:                                                           # otherwise use the WestGate function 
         WestGateResult = WestGate(userPreference)
         print(WestGateResult)
 
