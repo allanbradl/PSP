@@ -33,7 +33,7 @@
 import arcpy
 from arcpy import env
 
-arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb"   #### We need to make this a relative path 
+arcpy.env.workspace = r"C:\PSP\GroupProject\Algonquin\Algonquin\PSPgrp\CampgroundsData.gdb"   #### We need to make this a relative path 
 
 # User defined functions: 
 # Append the user inputs to a Preference List 
