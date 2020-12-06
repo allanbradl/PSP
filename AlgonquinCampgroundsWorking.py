@@ -2,31 +2,40 @@
 # Name of Program: Alongquin Park Campground Selector
 # Authors: Kristine Luangkhot, James Serendip, Kathryn Little, Kendrick Lok 
 # Date last modified: December 6, 2020
-# Program Purpose: to conduct a site suitability analysis for a campground in Algonquin Provincial Park along the highway 60 corridor
+# Program Purpose: to conduct a site suitability analysis for a campground in Algonquin Provincial Park along the Highway 60 Corridor
 
 # Program Use: This program will be used by people looking to select a campground in Algonquin Park based on specific ranked criteria
 
 # Program Structure: 
 # Input Section: User will be asked for inputs for various criterion involved in selecting a campsite
 # Main Program: User inputs are appended to a preference list and are compared to value lists for each campground in either an EastGate
-# Function or WestGate Function depending on the user's preferred entrance gate. 
+#               Function or WestGate Function depending on the user's preferred entrance gate. 
+# Output Section: Up to three matching campgrounds are written to a CSV File with extra information about each campground, including
+#                 a link to the Ontario Parks Reservation Website
 
 # Assumptions made: This program assumes that the user is only looking to book a campground along the Highway 60 corridor of Algonquin
-# Provincial Park in Ontario. It also assumes that elevation and ground level are not a factor, given these are established campgrounds
-# It also assumes that the user does not want group camping. We are assuming accuracy of data from Ontario Geohub and the Algonquin
-# Park main website. 
+#                   Provincial Park in Ontario. It also assumes that elevation and ground level are not a factor, given these are 
+#                   established campgrounds. It also assumes that the user does not want group camping. 
+#                   We are assuming accuracy of data from Ontario Geohub and the Algonquin Park main website. 
 
-# Planned for limitations: this program does not work for backcountry campsite selection, only considers campgrounds along the highway
-# 60 corridor
+# Planned for limitations: this program does not work for backcountry campsite selection, only considers campgrounds along the Highway
+#                          60 corridor
 
-# Special cases and known problems: 
+# Special cases and known problems: None
 
-# Inputs and outputs: Input data will be user input appended to a list
-# the campsites that fit the suitability criteria will be written to a csv file 
+# Input: Input data will be user input appended to a list
+# Output: Results will be output as 1) an on-screen output 2) a maximum of three fully or partially campgrounds 
+#         matching the preference criteria to a CSV file 
 
 # References: Ontario Geohub (URL), Ontario Parks (URL)
 
 # Contribution of team members to implementation:  
+# Logic Flow: Kendrick
+# Inputs: Kendrick, James, Kristine, Kathryn 
+# Functions: Kathryn, James, Kristine
+# Arcpy: James, Kristine
+# Output: Kristine
+# Documentation: Kathryn 
 
 
 # import arcpy environment and set workspace 
@@ -80,28 +89,7 @@ def WestGate(preflist):
             # siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
             if sitefields == preflist:
                 sitematch.append(row[6])
-    return sitematch
-          
-
-
-    # sets field names to scan through later 
-
-# # printing info to help view and construction ------ remove when ready!---------------
-# print(campgrounds)
-# print(" fields: " + str(fieldName))
-# print()
-# # ----------------------------------------this can be removed for final, but leaving in in case we want to view it later----------
-
-# # loop through the feature class attribute table and assign evaluation criteria field values to each campsite (key)
-# with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
-#     for row in cursor:
-#         # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
-#         # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
-#         # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
-#         siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
-#         sitefields = [row[18], row[19], row[21], row[22], row[17], row[12], row[20]]
-#         sitesdict = {row[6]: sitefields}
-#         print(sitesdict)     
+    return sitematch  
 
 # Opening statements about program:
 print("Welcome to the Algonquin Provincial Park Campground Selector.") 
@@ -129,7 +117,7 @@ print("***************************************************************")
 print("Question 1)")
 print()
 try:
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
             # Users' preference on their starting point (East Gate or West Gate)
             startingpoint = str(input("Where would you like your starting point be? E = East Gate and W = West Gate:__  "))
             startingpoint = startingpoint.upper()                   # convert the input to uppercase 
@@ -141,7 +129,7 @@ try:
     print("***************************************************************")
     print("Question 2)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preferences on their distance from the starting point
         indistgate = str(input("How far would you want to travel to your campground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3:__ "))
         if indistgate not in ["1","2","3"]:                         # checks whether the user input exists in the list of valid inputs
@@ -152,7 +140,7 @@ try:
     print("***************************************************************")
     print("Question 3)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preferences on electric campsites
         inelectricCampsite = str(input("Would you like your campground to have electrical hook-up? Yes: enter 1, No: enter 0:__ "))
         if inelectricCampsite not in ["1","0"]:                     # checks whether the user input exists in the list of valid inputs
@@ -164,7 +152,7 @@ try:
     print("***************************************************************")
     print("Question 4)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preferences on boat ramp
         inboatramp = str(input("Would you like your campground to have a boat ramp? Yes: enter 1, No: enter 0:__ "))
         if inboatramp not in ["1","0"]:                             # checks whether the user input exists in the list of valid inputs
@@ -175,7 +163,7 @@ try:
     print("***************************************************************")
     print("Question 5)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preference on the distance to Visitor Centre
         inproxvisit = str(input("What is your preferred distance to the Visitor Centre? Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3:__ "))
         if inproxvisit not in ["1","2","3"]:                        # checks whether the user input exists in the list of valid inputs
@@ -186,7 +174,7 @@ try:
     print("***************************************************************")
     print("Question 6)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preference on the trails' difficulty
         intrailpref = str(input("What level of trail difficulty would you like to have in proximity to your campground? Easy: enter 1, Moderate: enter 2, Hard: enter 3:__ "))
         if intrailpref not in ["1","2","3"]:                        # checks whether the user input exists in the list of valid inputs
@@ -197,7 +185,7 @@ try:
     print("***************************************************************")
     print("Question 7)")
     print()
-    while True:                                                     # loops until a valid input is entered
+    while True:                                                     # if an invalid input is entered, print invalid entry and ask for input again
         # Users' preference on the distance to trailer station
         intrailerstation = str(input("What is your preferred distance to a trailer sanitation station?  Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3:__ "))
         if intrailerstation not in ["1","2","3"]:                   # checks whether the user input exists in the list of valid inputs
@@ -211,12 +199,10 @@ try:
     userPreference = appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
     print(userPreference)
 
-
-
-    if startingpoint=="E":
+    if startingpoint=="E":                                          # If the user starting input is E use the EastGate function
         EastGateResult = EastGate(userPreference)
         print(EastGateResult)
-    else:
+    else:                                                           # otherwise use the WestGate function 
         WestGateResult = WestGate(userPreference)
         print(WestGateResult)
 
