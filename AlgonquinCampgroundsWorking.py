@@ -28,23 +28,27 @@
 
 # Contribution of team members to implementation:  
 
+
+# import arcpy environment and set workspace 
 import arcpy
 from arcpy import env
 
-arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb"
+arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb"   #### We need to make this a relative path 
 
+# User defined functions: 
+# Append the user inputs to a Preference List 
 def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
     PreferenceList = []
     PreferenceList.extend([int(distgate), int(electricCampsite), int(boatramp), int(proxvisit), int(trailpref), int(trailerstation)])
     return PreferenceList
 
+# Function for main program if the preferred entrance gate is the East Gate (based on user input)
 def EastGate(preflist):
-    print("East Gate Function")
     # set variable for feature class definition
-    sitematch = []
+    sitematch = []                                                            # create an empty list for sitematch to use in site matching
     featureClasses = arcpy.ListFeatureClasses()
     campgrounds = featureClasses[0]
-    fieldName = [f.name for f in arcpy.ListFields("Campgrounds")] 
+    fieldName = [f.name for f in arcpy.ListFields("Campgrounds")]
     # sitesdict = {}
     with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
         for row in cursor:
@@ -59,10 +63,9 @@ def EastGate(preflist):
                 sitematch.append(row[6])
     return sitematch
 
-
+# Functioin for main program if the preferred entrance gate is the West Gate (based on user input)
 def WestGate(preflist):
-    print("West Gate")
-    sitematch = []
+    sitematch = []                                                           # create an empty list for sitematch to use in site matching
     featureClasses = arcpy.ListFeatureClasses()
     campgrounds = featureClasses[0]
     fieldName = [f.name for f in arcpy.ListFields("Campgrounds")] 
@@ -119,19 +122,18 @@ print("The East Gate is located near Whitney, ON. The West Gate is located 42.8 
 
 
 # Input Section: 
-# Users input their preferences in the PreferenceList
+# Users input their preference for each criteria based on the prompt
 
 print()
 print("***************************************************************")
 print("Question 1)")
 print()
 try:
-
-    while True:
-            # Users' preference on their starting point
+    while True:                                                     # loops until a valid input is entered
+            # Users' preference on their starting point (East Gate or West Gate)
             startingpoint = str(input("Where would you like your starting point be? E = East Gate and W = West Gate:__  "))
-            startingpoint = startingpoint.upper()
-            if startingpoint not in ["E","W"]:
+            startingpoint = startingpoint.upper()                   # convert the input to uppercase 
+            if startingpoint not in ["E","W"]:                      # checks whether the user input exists in the list of valid inputs
                 print("Invalid entry. Please enter E or W.")
             else:
                 break
@@ -139,21 +141,21 @@ try:
     print("***************************************************************")
     print("Question 2)")
     print()
-    while True:
-            # Users' preferences on their distance from the starting point
-            indistgate = str(input("How far would you want to travel to your campground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3:__ "))
-            if indistgate not in ["1","2","3"]:
-                print("Invalid entry. Please enter 1, 2 or 3.")
-            else:
-                break 
+    while True:                                                     # loops until a valid input is entered
+        # Users' preferences on their distance from the starting point
+        indistgate = str(input("How far would you want to travel to your campground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3:__ "))
+        if indistgate not in ["1","2","3"]:                         # checks whether the user input exists in the list of valid inputs
+            print("Invalid entry. Please enter 1, 2 or 3.")
+        else:
+            break 
     print()
     print("***************************************************************")
     print("Question 3)")
     print()
-    while True:
+    while True:                                                     # loops until a valid input is entered
         # Users' preferences on electric campsites
         inelectricCampsite = str(input("Would you like your campground to have electrical hook-up? Yes: enter 1, No: enter 0:__ "))
-        if inelectricCampsite not in ["1","0"]:
+        if inelectricCampsite not in ["1","0"]:                     # checks whether the user input exists in the list of valid inputs
             print("Invalid entry. Please enter 1 (Yes) or 0 (No).")
         else:
             break
@@ -162,51 +164,49 @@ try:
     print("***************************************************************")
     print("Question 4)")
     print()
-    while True:
-            # Users' preferences on boat ramp
-            inboatramp = str(input("Would you like your campground to have a boat ramp? Yes: enter 1, No: enter 0:__ "))
-            if inboatramp not in ["1","0"]:    
-                print("Invalid entry. Please enter 1 (Yes) or 0 (No).") 
-            else:
-                break
+    while True:                                                     # loops until a valid input is entered
+        # Users' preferences on boat ramp
+        inboatramp = str(input("Would you like your campground to have a boat ramp? Yes: enter 1, No: enter 0:__ "))
+        if inboatramp not in ["1","0"]:                             # checks whether the user input exists in the list of valid inputs
+            print("Invalid entry. Please enter 1 (Yes) or 0 (No).") 
+        else:
+            break
     print()
     print("***************************************************************")
     print("Question 5)")
     print()
-    while True:  
-            # Users' preference on the distance to visitor centre
-            inproxvisit = str(input("What is your preferred distance to the Visitor Centre? Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3:__ "))
-            if inproxvisit not in ["1","2","3"]:
-                print("Invalid entry. Please enter 1 (Yes) or 0 (No).")
-            else:
-                break
+    while True:                                                     # loops until a valid input is entered
+        # Users' preference on the distance to Visitor Centre
+        inproxvisit = str(input("What is your preferred distance to the Visitor Centre? Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3:__ "))
+        if inproxvisit not in ["1","2","3"]:                        # checks whether the user input exists in the list of valid inputs
+            print("Invalid entry. Please enter 1 (Yes) or 0 (No).")
+        else:
+            break
     print()
     print("***************************************************************")
     print("Question 6)")
     print()
-    while True:
-            # Users' preference on the trails' difficulty
-            intrailpref = str(input("What level of trail difficulty would you like to have in proximity to your campground? Easy: enter 1, Moderate: enter 2, Hard: enter 3:__ "))
-            if intrailpref not in ["1","2","3"]:
-                print("Invalid entry. Please enter 1 (Easy), 2 (Moderate) or 3 (Hard).")
-            else:
-                break
+    while True:                                                     # loops until a valid input is entered
+        # Users' preference on the trails' difficulty
+        intrailpref = str(input("What level of trail difficulty would you like to have in proximity to your campground? Easy: enter 1, Moderate: enter 2, Hard: enter 3:__ "))
+        if intrailpref not in ["1","2","3"]:                        # checks whether the user input exists in the list of valid inputs
+            print("Invalid entry. Please enter 1 (Easy), 2 (Moderate) or 3 (Hard).")
+        else:
+            break
     print()
     print("***************************************************************")
     print("Question 7)")
     print()
-    while True:
-            # Users' preference on the distance to trailer station
-            intrailerstation = str(input("What is your preferred distance to a trailer sanitation station?  Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3:__ "))
-            if intrailerstation not in ["1","2","3"]:
-                print("Invalid entry. Please enter 1, 2 or 3.")
-            else:
-                break
+    while True:                                                     # loops until a valid input is entered
+        # Users' preference on the distance to trailer station
+        intrailerstation = str(input("What is your preferred distance to a trailer sanitation station?  Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3:__ "))
+        if intrailerstation not in ["1","2","3"]:                   # checks whether the user input exists in the list of valid inputs
+            print("Invalid entry. Please enter 1, 2 or 3.")
+        else:
+            break
     print()
     print("***************************************************************")
     print()
-    # just to test if the above line runs properly
-    print("done")
     print(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
     userPreference = appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
     print(userPreference)
@@ -219,6 +219,8 @@ try:
     else:
         WestGateResult = WestGate(userPreference)
         print(WestGateResult)
+
+    # Output Section: result of site matching is written to a CSV File 
 
     # # Top 3 campgrounds selected based on user input and matches stored in a dictionary
     # campgroundSelection = {"Rock Lake": ["Yes", "Yes", "Yes", "Yes", "Booth's Rock Trail", "Difficult", "23.2 km", "49.2 km", "0 km", "11.5 km",
