@@ -23,6 +23,11 @@
 
 # Contribution of team members to implementation: 
 
+#User-defined functions:
+def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
+    PreferenceList = []
+    PreferenceList.extend([distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation])
+    return PreferenceList
 
 # Opening statements about program: 
 print("Welcome to the Algonquin Provincial Park Campground Selector.") 
@@ -128,7 +133,8 @@ try:
     # just to test if the above line runs properly
     print("done")
     print(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
-    #appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
+    userPreference = appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
+    print(userPreference)
 
 except ValueError:
     print("Enter correct value as requested please")

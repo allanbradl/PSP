@@ -81,6 +81,36 @@
 #     return PreferenceList
 
 try:
+    # # import arcpy and get connected to our geodatabase
+    # import arcpy
+    # from arcpy import env
+
+    # arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb"
+
+    # # set variable for feature class definition
+    # featureClasses = arcpy.ListFeatureClasses()
+    # campgrounds = featureClasses[0]
+    # fieldName = [f.name for f in arcpy.ListFields("Campgrounds")]  # sets field names to scan through later 
+
+    # # printing info to help view and construction ------ remove when ready!---------------
+    # print(campgrounds)
+    # print(" fields: " + str(fieldName))
+    # print()
+    # # ----------------------------------------this can be removed for final, but leaving in in case we want to view it later----------
+
+    # # create empty dictionary for campsite info and empty string to hold values of fields for each site
+    # sitesdict = {}
+
+    # # loop through the feature class attribute table and assign evaluation criteria field values to each campsite (key)
+    # with arcpy.da.SearchCursor(campgrounds, fieldName) as cursor:
+    #     for row in cursor:
+    #         # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
+    #         # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
+    #         # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
+    #         siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
+    #         sitefields = [row[18], row[19], row[21], row[22], row[17], row[12], row[20]]
+    #         sitesdict = {row[6]: sitefields}
+    #         print(sitesdict) 
 
     while True:
         # Users' preference on their starting point
@@ -94,8 +124,8 @@ try:
 
     while True:
         # Users' preferences on their distance from the starting point
-        distgate = int(input("How far would you want to travel to your camp ground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3 "))
-        if distgate not in [1,2,3]:
+        distgate = str(input("How far would you want to travel to your camp ground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3 "))
+        if distgate not in ["1","2","3"]:
             print("Invalid entry. Please enter 1, 2 or 3.")
         else:
             break 
@@ -103,8 +133,7 @@ try:
 
     while True:
         # Users' preferences on electric campsites
-        electricCampsite = int(input("Would you want your camp ground that has electric camp sites? \
-                                        Yes: enter 1, No: enter 0 "))
+        electricCampsite = int(input("Would you want your camp ground that has electric camp sites? Yes: enter 1, No: enter 0 "))
         if electricCampsite not in [1,0]:
             print("Invalid entry. Please enter 1 (Yes) or 0 (No).")
         else:
