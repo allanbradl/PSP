@@ -13,11 +13,13 @@
 # It also assumes that the user does not want group camping. We are assuming accuracy of data from Ontario Geohub and the Algonquin
 # Park main website. 
 
-# Planned for limitations: 
+# Planned for limitations: this program does not work for backcountry campsite selection, only considers campgrounds along the highway
+# 60 corridor
 
 # Special cases and known problems: 
 
-# Inputs and outputs: Input data will be _____, the campsites that fit the suitability criteria will be written to a csv file 
+# Inputs and outputs: Input data will be user input appended to a list
+# the campsites that fit the suitability criteria will be written to a csv file 
 
 # References: Ontario Geohub (URL), Ontario Parks (URL)
 
@@ -84,7 +86,7 @@ try:
     print()
     while True:
             # Users' preferences on boat ramp
-            inboatramp = str(input("Would you like the lakes at your campground to allow motor boat? Yes: enter 1, No: enter 0:__ "))
+            inboatramp = str(input("Would you like your campground to have a boat ramp? Yes: enter 1, No: enter 0:__ "))
             if inboatramp not in ["1","0"]:    
                 print("Invalid entry. Please enter 1 (Yes) or 0 (No).") 
             else:
