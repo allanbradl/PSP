@@ -26,11 +26,9 @@
 
 # functions for use in program - Kate 
 
-# main function for the entire program?
-def main():
 
 # function to append input values to campground preference list 
-def appendtolist():
+def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
     PreferenceList = []                                                                                 # create empty list to store preferences
     PreferenceList.extend(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation)   # use the extend function to appending individual elements
 
@@ -73,10 +71,12 @@ def WestGate():
         # comparison between PreferenceList and index list of campground in dictionary
 
 
-# these are just notes I've made about input to get thinking organized
-startgate = input("Which Gate are you going to enter at (W or E)? ")
+# main function for the entire program?
+def main():
 
-if startgate = 'E':
+# these are just notes I've made about input to get thinking organized
+
+if startingpoint = 'E':
     EastGate()
 else: 
     WestGate()
