@@ -7,6 +7,9 @@
 # Program Use: This program will be used by people looking to select a campground in Algonquin Park based on specific ranked criteria
 
 # Program Structure: 
+# Input Section: User will be asked for inputs for various criterion involved in selecting a campsite
+# Main Program: User inputs are appended to a preference list and are compared to value lists for each campground in either an EastGate
+# Function or WestGate Function depending on the user's preferred entrance gate. 
 
 # Assumptions made: This program assumes that the user is only looking to book a campground along the Highway 60 corridor of Algonquin
 # Provincial Park in Ontario. It also assumes that elevation and ground level are not a factor, given these are established campgrounds
@@ -23,8 +26,7 @@
 
 # References: Ontario Geohub (URL), Ontario Parks (URL)
 
-# Contribution of team members to implementation: 
-# functions for use in program - Kate 
+# Contribution of team members to implementation:  
 
 def EastGate(): 
     CampgroundEast = []  # do I need this?
@@ -85,6 +87,10 @@ print()
 print("This program should help make it a little bit easier by taking your preferences and choosing up to three campgrounds which meet those criterion.")
 print()
 print("This program assumes the user is only looking for individual camping, therefore the group campground will not be considered.")
+print()
+print("There are two gates for entry to the park along the Highway 60 corridor; East and West.")
+print()
+print("The East Gate is located near Whitney, ON. The West Gate is located 42.8 km east of Huntsville.")
 
 
 # Input Section: 
