@@ -23,7 +23,6 @@ def EastGate(preflist):
         for row in cursor:
             sitefields = [row[19], row[21], row[22], row[17], row[12], row[20]]
             sitesdict = {row[6]: sitefields}
-            print(sitesdict)
             ranker = 0
             # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
             # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
@@ -51,7 +50,7 @@ def EastGate(preflist):
 
 def WestGate(preflist):
     print("West Gate")
-    sitematch = []
+    sitematch = {}
     featureClasses = arcpy.ListFeatureClasses()
     campgrounds = featureClasses[0]
     fieldName = [f.name for f in arcpy.ListFields("Campgrounds")] 
@@ -59,13 +58,30 @@ def WestGate(preflist):
         for row in cursor:
             sitefields = [row[18], row[21], row[22], row[17], row[12], row[20]]
             sitesdict = {row[6]: sitefields}
-            print(sitesdict)
+            ranker = 0
             # print(row[6], row[18], row[21], row[22], row[17], row[12], row[20])
             # dictionary order is: KEY=campsite name, distance to West Gate, Distance to East Gate, electric,
             # boat ramp, distance to visitor centre, Trail difficulty, distance to sanitation station, 
             # siteoutputinfo = [row[7], row[8], row[9]]    #These fields not used in site selection but included in output: pet-friendly, wheelchair accessible, reservation URL
             if sitefields == preflist:
-                sitematch.append(row[6])
+                rank = 3
+                sitematch.update({row[6]: rank})
+            else:
+                
+                for i in range(len(sitefields)):
+                    if sitefields[i] == preflist[i]:
+                        ranker += 1
+                        rank = ranker-3
+                        print(rank)
+                        print(row[6])
+                        sitematch.update({row[6]: rank})
+                                
+
+    sorted_sitematch = dict(sorted(sitematch.items(), key=operator.itemgetter(1),reverse=True))
+    sort_match = sorted_sitematch.items()
+    top_match = list(sort_match)[:3]
+    return top_match
+
     return sitematch
           
 
