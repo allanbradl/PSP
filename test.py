@@ -2,8 +2,10 @@ import operator
 import arcpy
 from arcpy import env
 import csv
+import os
 
-arcpy.env.workspace = r"C:\Users\kris_\Desktop\PSP\Algonquin\CampgroundsData.gdb"
+cwd = os.getcwd()
+arcpy.env.workspace = cwd + r"\CampgroundsData.gdb"
 
 def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
     PreferenceList = []
@@ -62,7 +64,6 @@ def WestGate(userList):
     sorted_WestSiteMatch = dict(sorted(westGateSiteMatch.items(), key=operator.itemgetter(1),reverse=True))
     topThreeWest = list(sorted_WestSiteMatch.items())[:3]
     return topThreeWest
-
 
 def WestGateDictionary():
     westCampgrounds = {}
