@@ -1,7 +1,6 @@
-# GEOM 67 Group Project 
 # Name of Program: Alongquin Park Campground Selector
 # Authors: Kristine Luangkhot, James Serendip, Kathryn Little, Kendrick Lok 
-# Date last modified: December 6, 2020
+# Date last modified: December 8, 2020
 # Program Purpose: to conduct a site suitability analysis for a campground in Algonquin Provincial Park along the Highway 60 Corridor
 
 # Program Use: This program will be used by people looking to select a campground in Algonquin Park based on specific ranked criteria
@@ -37,18 +36,24 @@
 # Output: Kristine
 # Documentation: Kathryn 
 
-import arcpy
+import arcpy                # to access campgrounds feature class
 from arcpy import env
-import csv
-import os
+import csv                  # to write outputs to a text file
+import os                   # to set relative path for the application
 
+# Creates a list of all user inputs preferences
+# Will be use to calculate a matching score then compared against the dictionary
 def AppendToList(distanceGate, electricCampsite, boatRamp, proximityVisit, trailPreference, trailerStation):
     PreferenceList = []
     PreferenceList.extend([int(distanceGate), int(electricCampsite), int(boatRamp), int(proximityVisit), int(trailPreference), int(trailerStation)])
     return PreferenceList
 
+# If user selects to start from the east gate, this is the function that will be used to calculate match scores
+# Uses arcpy SearchCursor to read each field per row in the feature class of campgrounds
+# Compares each item in each row to the preference list
+# Creates a score from 0 to 6 for each campground to indicate how well the preference list matches each campground in the geodatabase
+# Only the 3 campgrounds with the highest score will be returned to the main function
 def EastGate(userPreferenceList):
-    # set variable for feature class definition
     eastGateSiteMatch = []
     eastGateFeatureClasses = arcpy.ListFeatureClasses()
     eastGateCampgrounds = eastGateFeatureClasses[0]
@@ -65,8 +70,12 @@ def EastGate(userPreferenceList):
     eastGateSiteMatch = eastGateSiteMatch[:3]
     return eastGateSiteMatch
 
+# If user selects to start from the west gate, this is the function that will be used to calculate match scores
+# Uses arcpy SearchCursor to read each field per row in the feature class of campgrounds
+# Compares each item in each row to the preference list
+# Creates a score from 0 to 6 for each campground to indicate how well the preference list matches each campground in the geodatabase
+# Only the 3 campgrounds with the highest score will be returned to the main function
 def WestGate(userList):
-    # set variable for feature class definition
     westGateSiteMatch = []
     westGateFeatureClasses = arcpy.ListFeatureClasses()
     westGateCampgrounds = westGateFeatureClasses[0]
@@ -83,6 +92,7 @@ def WestGate(userList):
     westGateSiteMatch = westGateSiteMatch[:3]
     return westGateSiteMatch
 
+# Creates a dictionary where the keys are the names of all 8 campgrounds and values are a list of attributes for each campground
 def GateDictionary():
     campgrounds = {}
     campNames = []
@@ -121,18 +131,21 @@ def main():
         print()
         print("This program assumes the user is only looking for individual camping, therefore the group campground will not be considered.")
         print()
+        print("In your results, a score of 6 indicates a perfect match. For each unmatched criteria, the score decreases by 1.")
         # Set answer to Y at the beginning so program will move into inputs immediately
         answer = "Y"
 
         # Input Section: 
         # Users input their preferences and each preference gets stored in a variable
+        # Users must enter an appropriate answer to each question for the application to continue
+        # If user input is not in the list of appropriate values for each question the user will be prompted to try again
         while answer == "Y":
             print()
             print("***************************************************************")
             print("Question 1)")
             print()
             while True:
-                    # Users' preference on their starting point
+                    # Users' indicate their starting point
                     startingPoint = str(input("Where would you like your starting point be? E = East Gate and W = West Gate:__  "))
                     startingPoint = startingPoint.upper()
                     if startingPoint not in ["E","W"]:
@@ -210,26 +223,36 @@ def main():
             print()
             print("***************************************************************")
             print()
+
+            # User inputs appended to one list by calling the AppendToList function
             userPreference = AppendToList(inputDistanceGate, inputElectric, inputBoat, inputVisitor, inputDifficulty, inputTrailer)
 
+            # If user is starting from the east gate, call the function EastGate to calculate scores for each campground
+            # userPreference list passed into the EastGate function
+            # Top 3 campgrounds returned from the function is stored in FinalGateResult
+            # Top 3 campgrounds with the highest scores will be displayed on screen as a table
             if startingPoint=="E":
                 FinalGateResult = EastGate(userPreference)
                 print("Your top 3 matches are: ")
                 print()
-                print("Campground Name\t\t\tMatch Score")
+                print("Campground Name\t\t\t\t\tMatch Score")
                 for index in range(len(FinalGateResult)):
                     matchName = FinalGateResult[index][1]
                     matchScore = FinalGateResult[index][0]
-                    print(matchName, '\t\t', matchScore)
+                    print(f'{matchName:<30}\t\t\t\t{matchScore}')
+            # If user is starting from the west gate, call the function WestGate to calculate scores for each campground
+            # userPreference list passed into the WestGate function
+            # Top 3 campgrounds returned from the function is stored in FinalGateResult
+            # Top 3 campgrounds with the highest scores will be displayed on screen as a table
             else:
                 FinalGateResult = WestGate(userPreference)
                 print("Your top 3 matches are: ")
                 print()
-                print("Campground Name\t\t\tMatch Score")
+                print("Campground Name\t\t\t\t\tMatch Score")
                 for index in range(len(FinalGateResult)):
                     matchName = FinalGateResult[index][1]
                     matchScore = FinalGateResult[index][0]
-                    print(matchName, '\t\t', matchScore)
+                    print(f'{matchName:<30}\t\t\t\t{matchScore}')
             print()
             print("***************************************************************")
             print()
@@ -237,10 +260,8 @@ def main():
             answer = input("Do you want to run the campground selector again (Y/N)? ")
             answer = answer.upper()
         
-        # # Output Section 
+        # Output Section:
         # Create empty lists to hold individual dictionary items
-        # simplified version of the code that uses one dictionary and has all information regardless of chosen gate
-        # dictionary has both east gate and west gate distances
         campgroundName = []
         electricalCampsites = []
         boatRamp = []
@@ -254,9 +275,11 @@ def main():
         visitorCentreDistance = []
         reservationLink = []
 
-        # If the campground name in the score list is a key in the dictionary with all campgrounds, add this campground to the result
+        # All eight campgrounds and their associated attributes are stored in one dictionary called allCampgrounds
+        # If the campground name in FinalGateResult is a key in the allCampgrounds dictionary, add this campground to the result
         # Append individual dictionary items to empty lists
         # Every item appended is associated with the same key (campground name)
+        # Each list has 3 items
         allCampgrounds = GateDictionary()
         for index in range(len(FinalGateResult)):
             campSelectionName = FinalGateResult[index][1]
@@ -289,8 +312,18 @@ def main():
                 campgroundWriter.writerow(row)
         print()
         print("A .csv file with more details about your top 3 campgrounds is available in the workspace folder. Happy camping!")
-    except ValueError:
-        print("Enter correct value as requested please")
+    except KeyError:
+        print("Campground does not exist. ")
+    except FileNotFoundError:
+        print("CampgroundsData.gdb geodatabase not found. Please move geodatabase into the same folder as the application file.")
+    except IndexError:
+        print("List item not found.")
+    except IOError:
+        print("Problem with file structure. Please make sure database and application are in the original folder.")
+    except ImportError:
+        print("Missing library. Please make sure you have arcpy, csv and os libraries available.")
+    except RuntimeError:
+        print("There has been an error. Please try again.")
 
 if __name__ == "__main__":
     main()
