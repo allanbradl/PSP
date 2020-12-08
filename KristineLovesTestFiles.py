@@ -4,12 +4,9 @@ from arcpy import env
 import csv
 import os
 
-cwd = os.getcwd()
-arcpy.env.workspace = cwd + r"\CampgroundsData.gdb"
-
-def appendtolist(distgate, electricCampsite, boatramp, proxvisit, trailpref, trailerstation):
+def AppendToList(distanceGate, electricCampsite, boatRamp, proximityVisit, trailPreference, trailerStation):
     PreferenceList = []
-    PreferenceList.extend([int(distgate), int(electricCampsite), int(boatramp), int(proxvisit), int(trailpref), int(trailerstation)])
+    PreferenceList.extend([int(distanceGate), int(electricCampsite), int(boatRamp), int(proximityVisit), int(trailPreference), int(trailerStation)])
     return PreferenceList
 
 def EastGate(userPreferenceList):
@@ -66,10 +63,12 @@ def GateDictionary():
     return campgrounds
 
 def main():
-
-    # Input Section: 
-    # Users input their preferences in the PreferenceList
     try:
+        # Set the workspace environment to a relative path
+        # Will work as long as CampgroundsData.gdb and AlgonquinCampgroundSelector.py are located in the same workspace folder
+        cwd = os.getcwd()
+        arcpy.env.workspace = cwd + r"\CampgroundsData.gdb"
+    
         # Opening statements about program: 
         print("Welcome to the Algonquin Provincial Park Campground Selector.") 
         print()
@@ -85,6 +84,9 @@ def main():
         print()
         answer = str(input("Enter 'y' to start the application: "))
         answer = answer.upper()
+
+        # Input Section: 
+        # Users input their preferences and each preference gets stored in a variable
         while answer == "Y":
             print()
             print("***************************************************************")
@@ -92,9 +94,9 @@ def main():
             print()
             while True:
                     # Users' preference on their starting point
-                    startingpoint = str(input("Where would you like your starting point be? E = East Gate and W = West Gate:__  "))
-                    startingpoint = startingpoint.upper()
-                    if startingpoint not in ["E","W"]:
+                    startingPoint = str(input("Where would you like your starting point be? E = East Gate and W = West Gate:__  "))
+                    startingPoint = startingPoint.upper()
+                    if startingPoint not in ["E","W"]:
                         print("Invalid entry. Please enter E or W.")
                     else:
                         break
@@ -104,8 +106,8 @@ def main():
             print()
             while True:
                     # Users' preferences on their distance from the starting point
-                    indistgate = str(input("How far would you want to travel to your campground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3:__ "))
-                    if indistgate not in ["1","2","3"]:
+                    inputDistanceGate = str(input("How far would you want to travel to your campground? Under 20km: enter 1, Between 21 - 40km: enter 2, Over 40km: enter 3:__ "))
+                    if inputDistanceGate not in ["1","2","3"]:
                         print("Invalid entry. Please enter 1, 2 or 3.")
                     else:
                         break 
@@ -115,8 +117,8 @@ def main():
             print()
             while True:
                 # Users' preferences on electric campsites
-                inelectricCampsite = str(input("Would you like your campground to have electrical hook-up? Yes: enter 1, No: enter 0:__ "))
-                if inelectricCampsite not in ["1","0"]:
+                inputElectric = str(input("Would you like your campground to have electrical hook-up? Yes: enter 1, No: enter 0:__ "))
+                if inputElectric not in ["1","0"]:
                     print("Invalid entry. Please enter 1 (Yes) or 0 (No).")
                 else:
                     break
@@ -127,8 +129,8 @@ def main():
             print()
             while True:
                     # Users' preferences on boat ramp
-                    inboatramp = str(input("Would you like your campground to have a boat ramp? Yes: enter 1, No: enter 0:__ "))
-                    if inboatramp not in ["1","0"]:    
+                    inputBoat = str(input("Would you like your campground to have a boat ramp? Yes: enter 1, No: enter 0:__ "))
+                    if inputBoat not in ["1","0"]:    
                         print("Invalid entry. Please enter 1 (Yes) or 0 (No).") 
                     else:
                         break
@@ -138,8 +140,8 @@ def main():
             print()
             while True:  
                     # Users' preference on the distance to visitor centre
-                    inproxvisit = str(input("What is your preferred distance to the Visitor Centre? Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3:__ "))
-                    if inproxvisit not in ["1","2","3"]:
+                    inputVisitor = str(input("What is your preferred distance to the Visitor Centre? Under 20km: enter 1, Between 20 - 40km: enter 2, over 40km: enter 3:__ "))
+                    if inputVisitor not in ["1","2","3"]:
                         print("Invalid entry. Please enter 1 (Yes) or 0 (No).")
                     else:
                         break
@@ -149,8 +151,8 @@ def main():
             print()
             while True:
                     # Users' preference on the trails' difficulty
-                    intrailpref = str(input("What level of trail difficulty would you like to have in proximity to your campground? Easy: enter 1, Moderate: enter 2, Hard: enter 3:__ "))
-                    if intrailpref not in ["1","2","3"]:
+                    inputDifficulty = str(input("What level of trail difficulty would you like to have in proximity to your campground? Easy: enter 1, Moderate: enter 2, Hard: enter 3:__ "))
+                    if inputDifficulty not in ["1","2","3"]:
                         print("Invalid entry. Please enter 1 (Easy), 2 (Moderate) or 3 (Hard).")
                     else:
                         break
@@ -160,17 +162,17 @@ def main():
             print()
             while True:
                     # Users' preference on the distance to trailer station
-                    intrailerstation = str(input("What is your preferred distance to a trailer sanitation station?  Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3:__ "))
-                    if intrailerstation not in ["1","2","3"]:
+                    inputTrailer = str(input("What is your preferred distance to a trailer sanitation station?  Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3:__ "))
+                    if inputTrailer not in ["1","2","3"]:
                         print("Invalid entry. Please enter 1, 2 or 3.")
                     else:
                         break
             print()
             print("***************************************************************")
             print()
-            userPreference = appendtolist(indistgate, inelectricCampsite, inboatramp, inproxvisit, intrailpref, intrailerstation)
+            userPreference = AppendToList(inputDistanceGate, inputElectric, inputBoat, inputVisitor, inputDifficulty, inputTrailer)
 
-            if startingpoint=="E":
+            if startingPoint=="E":
                 FinalGateResult = EastGate(userPreference)
                 print("Your top 3 matches are: ")
                 print()
@@ -211,11 +213,12 @@ def main():
         visitorCentreDistance = []
         reservationLink = []
 
+        # If the campground name in the score list is a key in the dictionary with all campgrounds, add this campground to the result
+        # Append individual dictionary items to empty lists
+        # Every item appended is associated with the same key (campground name)
         allCampgrounds = GateDictionary()
         for index in range(len(FinalGateResult)):
             campSelectionName = FinalGateResult[index][1]
-            # Append individual dictionary items to empty list
-            # Every item appended is associated with the same key (campground name)
             if campSelectionName in allCampgrounds:
                 campgroundName.append(campSelectionName)
                 electricalCampsites.append(allCampgrounds[campSelectionName][0])
@@ -231,7 +234,8 @@ def main():
                 reservationLink.append(allCampgrounds[campSelectionName][10])
 
 
-        # Write output to a new text file
+        # Write output to a new text (.csv) file
+        # Append list items as one row
         # Each row is one campground
         with open("CampgroundSelection.csv", "w", newline="") as campground_final:
             campgroundWriter = csv.writer(campground_final)
