@@ -309,7 +309,7 @@ def main():
         # Write output to a new text (.csv) file
         # Append list items as one row
         # Each row is one campground
-        with open("CampgroundSelection.csv", "w", newline="") as campground_final:
+        with open("CampgroundSelection_W100111.csv", "w", newline="") as campground_final:
             campgroundWriter = csv.writer(campground_final)
             campgroundWriter.writerow(["Name of Campground", "Electrical Campsites", "Boat Ramp", "Dog Friendly", "Wheelchair Accessible", "Nearest Trail", "Trail Difficulty", 
             "Distance to West Gate (km)", "Distance to East Gate (km)", "Distance to Trailer Sanitation Station (km)", "Distance to Visitor Centre (km)", "Reservation Link"])
