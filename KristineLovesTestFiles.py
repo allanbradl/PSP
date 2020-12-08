@@ -1,4 +1,42 @@
-# import operator # this version doesn't use a dictionary for the scores, but a list
+# GEOM 67 Group Project 
+# Name of Program: Alongquin Park Campground Selector
+# Authors: Kristine Luangkhot, James Serendip, Kathryn Little, Kendrick Lok 
+# Date last modified: December 6, 2020
+# Program Purpose: to conduct a site suitability analysis for a campground in Algonquin Provincial Park along the Highway 60 Corridor
+
+# Program Use: This program will be used by people looking to select a campground in Algonquin Park based on specific ranked criteria
+
+# Program Structure: 
+# Input Section: User will be asked for inputs for various criterion involved in selecting a campsite
+# Main Program: User inputs are appended to a preference list and are compared to value lists for each campground in either an EastGate
+#               Function or WestGate Function depending on the user's preferred entrance gate. 
+# Output Section: Up to three matching campgrounds are written to a CSV File with extra information about each campground, including
+#                 a link to the Ontario Parks Reservation Website
+
+# Assumptions made: This program assumes that the user is only looking to book a campground along the Highway 60 corridor of Algonquin
+#                   Provincial Park in Ontario. It also assumes that elevation and ground level are not a factor, given these are 
+#                   established campgrounds. It also assumes that the user does not want group camping. 
+#                   We are assuming accuracy of data from Ontario Geohub and the Algonquin Park main website. 
+
+# Planned for limitations: this program does not work for backcountry campsite selection, only considers campgrounds along the Highway
+#                          60 corridor
+
+# Special cases and known problems: None
+
+# Input: Input data will be user input appended to a list
+# Output: Results will be output as 1) an on-screen output 2) a maximum of three fully or partially campgrounds 
+#         matching the preference criteria to a CSV file 
+
+# References: Ontario Geohub (URL), Ontario Parks (URL)
+
+# Contribution of team members to implementation:  
+# Logic Flow: Kendrick
+# Inputs: Kendrick, James, Kristine, Kathryn 
+# Functions: Kathryn, James, Kristine
+# Arcpy: James, Kristine
+# Output: Kristine
+# Documentation: Kathryn 
+
 import arcpy
 from arcpy import env
 import csv
@@ -63,6 +101,7 @@ def GateDictionary():
     return campgrounds
 
 def main():
+
     try:
         # Set the workspace environment to a relative path
         # Will work as long as CampgroundsData.gdb and AlgonquinCampgroundSelector.py are located in the same workspace folder
@@ -82,8 +121,8 @@ def main():
         print()
         print("This program assumes the user is only looking for individual camping, therefore the group campground will not be considered.")
         print()
-        answer = str(input("Enter 'y' to start the application: "))
-        answer = answer.upper()
+        # Set answer to Y at the beginning so program will move into inputs immediately
+        answer = "Y"
 
         # Input Section: 
         # Users input their preferences and each preference gets stored in a variable
@@ -167,6 +206,7 @@ def main():
                         print("Invalid entry. Please enter 1, 2 or 3.")
                     else:
                         break
+        
             print()
             print("***************************************************************")
             print()
@@ -193,6 +233,7 @@ def main():
             print()
             print("***************************************************************")
             print()
+            # Ask user if they want to run the program again
             answer = input("Do you want to run the campground selector again (Y/N)? ")
             answer = answer.upper()
         
