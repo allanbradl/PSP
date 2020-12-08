@@ -54,6 +54,7 @@ def AppendToList(distanceGate, electricCampsite, boatRamp, proximityVisit, trail
 # Compares each item in each row to the preference list
 # Creates a score from 0 to 6 for each campground to indicate how well the preference list matches each campground in the geodatabase
 # Only the 3 campgrounds with the highest score will be returned to the main function
+# Embedded lists: each item is a list with the score and name of the camgground
 def EastGate(userPreferenceList):
     eastGateSiteMatch = []
     eastGateFeatureClasses = arcpy.ListFeatureClasses()
@@ -76,6 +77,7 @@ def EastGate(userPreferenceList):
 # Compares each item in each row to the preference list
 # Creates a score from 0 to 6 for each campground to indicate how well the preference list matches each campground in the geodatabase
 # Only the 3 campgrounds with the highest score will be returned to the main function
+# Embedded lists: each item is a list with the score and name of the camgground
 def WestGate(userList):
     westGateSiteMatch = []
     westGateFeatureClasses = arcpy.ListFeatureClasses()
@@ -234,7 +236,7 @@ def main():
 
             # If user is starting from the east gate, call the function EastGate to calculate scores for each campground
             # userPreference list passed into the EastGate function
-            # Top 3 campgrounds returned from the function is stored in FinalGateResult
+            # Top 3 campgrounds with the highest match score returned from the function are stored as a list in FinalGateResult
             # Top 3 campgrounds with the highest scores will be displayed on screen as a table
             if startingPoint=="E":
                 FinalGateResult = EastGate(userPreference)
@@ -247,7 +249,7 @@ def main():
                     print(f'{matchName:<30}\t\t\t\t{matchScore}')
             # If user is starting from the west gate, call the function WestGate to calculate scores for each campground
             # userPreference list passed into the WestGate function
-            # Top 3 campgrounds returned from the function is stored in FinalGateResult
+            # Top 3 campgrounds with the highest match score returned from the function are stored as a list in FinalGateResult
             # Top 3 campgrounds with the highest scores will be displayed on screen as a table
             else:
                 FinalGateResult = WestGate(userPreference)
@@ -281,6 +283,7 @@ def main():
         reservationLink = []
 
         # All eight campgrounds and their associated attributes are stored in one dictionary called allCampgrounds
+        # campSelectionName is the name of the campground with the highest score - stored in index position 1 for each embedded list (3 total)
         # If the campground name in FinalGateResult is a key in the allCampgrounds dictionary, add this campground to the result
         # Append individual dictionary items to empty lists
         # Every item appended is associated with the same key (campground name)
