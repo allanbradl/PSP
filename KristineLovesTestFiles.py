@@ -26,7 +26,8 @@
 # Output: Results will be output as 1) an on-screen output 2) a maximum of three fully or partially campgrounds 
 #         matching the preference criteria to a CSV file 
 
-# References: Ontario Geohub (URL), Ontario Parks (URL)
+# References: Ontario Geohub (https://geohub.lio.gov.on.ca/), Ontario Parks (https://www.ontarioparks.com/reservations)
+#             Algonquin Park Corridor Map (https://www.algonquinpark.on.ca/visit/camping/highway-60-corridor.php)
 
 # Contribution of team members to implementation:  
 # Logic Flow: Kendrick
@@ -132,6 +133,10 @@ def main():
         print("This program assumes the user is only looking for individual camping, therefore the group campground will not be considered.")
         print()
         print("In your results, a score of 6 indicates a perfect match. For each unmatched criteria, the score decreases by 1.")
+        print()
+        print("There are two gates for entry to the park along the Highway 60 corridor; East and West.")
+        print()
+        print("The East Gate is located near Whitney, ON. The West Gate is located 42.8 km east of Huntsville.")
         # Set answer to Y at the beginning so program will move into inputs immediately
         answer = "Y"
 
