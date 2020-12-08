@@ -221,7 +221,7 @@ def main():
             print()
             while True:
                     # Users' preference on the distance to trailer station
-                    inputTrailer = str(input("What is your preferred distance to a trailer sanitation station?  Under 10km: enter 1, Between 11 - 20km: enter 2, over 21km: enter 3:__ "))
+                    inputTrailer = str(input("What is your preferred distance to a trailer sanitation station?  10km or under: enter 1, Between 11 - 20km: enter 2, 21km or over: enter 3:__ "))
                     if inputTrailer not in ["1","2","3"]:
                         print("Invalid entry. Please enter 1, 2 or 3.")
                     else:
